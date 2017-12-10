@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+*{
+  margin: 0;
+  padding: 0
+}
+body{
+  background-color: #ABC
+}
+p {
+  text-align: center;
+  font-size: 20px;
+  padding: 20px 20px;
+  background-color: grey;
+  font-family: cursive;
+  border: 2PX solid blue;
+}
+h3{
+  text-align: center;
+}
+</style>
+</head>
+<body>
+  
+<h3>TIME REMAINING</h3>
+<p id="clockdiv"></p>
+
+
+<script>
+var deadline = '12/11/2017 14:00:00';
+//calculate time remaining
+function getTimeRemaining(deadline){
+  var t = Date.parse(deadline)-Date.parse(new Date());
+  var seconds = Math.floor((t/1000) % 60);
+  var minutes = Math.floor((t/1000/60) % 60);
+  var hours = Math.floor(t/(1000*60*60) %24);
+  days = Math.floor(t/(1000*60*60*24));
+  return{
+    'total':t,
+    'days':days,
+    'hours':hours,
+    'minutes':minutes,
+    'seconds':seconds
+  };
+}
+//initialize the clock
+function initializeClock(id,deadline){
+  var clock= document.getElementById(id);
+  var timeinterval = setInterval(function(){
+    var t = getTimeRemaining(deadline);
+    clock.innerHTML = 'days:' + t.days +
+                      'hours:' + t.hours +
+                      'minutes:' + t.minutes + '' +
+                      'seconds:' + t.seconds ;
+                      if(t.total<=0){
+                        clearInterval(timeinterval);
+                      }
+  },1000);
+  function updateClock(){
+    var t = getTimeRemaining(deadline);
+    clock.innerHTML= t.days + 'Day :'+t.hours +'Hours :'+
+                      t.minutes +'Minutes :'+
+                   + t.seconds+'Seconds:';
+                    if(t.total<=0){
+                      clearInterval(timeinterval);
+                    }
+  }
+  updateClock();
+  var timeinterval = setInterval(updateClock,1000);
+
+}
+initializeClock('clockdiv',deadline);//initialize the clock on the browser
+
+</script>
+
+
+</body>
+</html>
